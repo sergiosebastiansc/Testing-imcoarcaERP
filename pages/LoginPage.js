@@ -1,5 +1,5 @@
 class LoginPage {
-    constructor (page) {
+    constructor(page) {
         this.url= '/login';
         this.page=page;
         this.emailAdress=  page.getByRole('textbox', { name: 'Email' })
@@ -28,3 +28,4 @@ class LoginPage {
     }
 }
 
+export default LoginPage;
