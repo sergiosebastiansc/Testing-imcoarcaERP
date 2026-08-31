@@ -1,6 +1,6 @@
 class LoginPage {
     constructor(page) {
-        this.url= '/login';
+        this.url= 'https://imcoarca.leonardojose.dev/login';
         this.page=page;
         this.emailAdress=  page.getByRole('textbox', { name: 'Email' })
         this.password=  page.getByRole('textbox', { name: 'Contraseña' })
@@ -21,7 +21,7 @@ class LoginPage {
     }
 
     async login (emailAdress,password){
-        await this.page.goto ('https://imcoarca.leonardojose.dev/login')
+        await this.page.goto (this.url)
         await this.llenarEmailAdress(emailAdress);
         await this.llenarPassword(password);
         await this.clickBtnLogin()
