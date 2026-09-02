@@ -168,7 +168,7 @@ class ArticlesPage {
         quantityPackage)
 
         {
-            await this.page.getByRole('heading', { name: 'Dashboard' }).waitFor({ state: 'visible' });
+            
             await this.page.goto(this.url)
             await this.clickearBtnCrearArt()
             await this.llenarSku(skuCode)

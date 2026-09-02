@@ -25,6 +25,7 @@ class LoginPage {
         await this.llenarEmailAdress(emailAdress);
         await this.llenarPassword(password);
         await this.clickBtnLogin()
+        await this.page.getByRole('heading', { name: 'Dashboard' }).waitFor({ state: 'visible' });
     }
 }
 
