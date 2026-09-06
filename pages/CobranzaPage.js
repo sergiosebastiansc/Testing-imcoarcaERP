@@ -7,8 +7,8 @@ class CobranzaPage{
         this.buscNombre= page.getByLabel('Buscar', { exact: true })
         this.selecCliente= page.getByRole('cell', { name: 'Cliente Automatizacion TAE' })
         this.fechaCobro= page.getByLabel('Fecha de Cobro')
-        this.montoCobrar= page.locator(`//tr[td[contains(., '246')]]//input[@type='text']`)
-        this.montoAllSaldo= page.getByRole('button', { name: 'Aplicar saldo completo ($ 100,00) para factura 246' })
+        this.montoCobrar= page.locator(`//tr[td[contains(., '247')]]//input[@type='text']`)
+        this.montoAllSaldo= page.getByRole('button', { name: 'Aplicar saldo completo ($ 100,00) para factura 247' })
         this.addMedioPago=  page.getByRole('button', { name: 'Añadir Medio' })
         this.metodoPago= page.getByRole('combobox', { name: 'Medio' })
         this.buscNameCuenta= page.locator("div[class='col-span-12 md:col-span-3'] button[aria-label='Buscar']")
@@ -40,7 +40,9 @@ class CobranzaPage{
     }
 
     async clickMontoCobrar(){
+        await this.montoAllSaldo.waitFor({ state: 'visible' })
         await this.montoAllSaldo.click()
+
     }
 
     async clickAddMedioPago(){
@@ -48,7 +50,7 @@ class CobranzaPage{
     }
 
     async selecMedioPago(){
-        await this.metodoPago.selectOption('Transferencia')
+        await this.metodoPago.selectOption('Efectivo')
     }
 
     async clickBuscCuenta(){
@@ -67,6 +69,11 @@ class CobranzaPage{
         await this.btnSaveCobranza.click()
     }
 
+        async cobranzaSinCliente(){
+        await this.clickAddCobranza()
+        await this.clickSaveCobranza()
+    }
+
     async AddCobranza(codCliente, fechaCobro){
         await this.clickAddCobranza()
         await this.llenarCodCliente(codCliente)
@@ -79,6 +86,16 @@ class CobranzaPage{
         await this.clickBuscCuenta()
         await this.selecCuentaCliente()
         await this.clickAddMontoFinal()
+        await this.clickSaveCobranza()
+    }
+
+        async cobranzaSinMedioPago(codCliente, fechaCobro){
+        await this.clickAddCobranza()
+        await this.llenarCodCliente(codCliente)
+        await this.selecBuscNombre()
+        await this.selecNombre()
+        await this.llenarFechaCobro(fechaCobro)
+        await this.clickMontoCobrar()
         await this.clickSaveCobranza()
     }
 
