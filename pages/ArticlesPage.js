@@ -149,6 +149,14 @@ class ArticlesPage {
         await this.btnSave.click()
 
     }
+
+    async deleteArticle(value){
+        await this.page.getByRole('textbox', { name: 'Buscar' }).fill(value)
+        await this.page.getByRole('textbox', { name: 'Buscar' }).press('Enter')
+        await this.page.getByRole('cell', { name: 'TESTING PLAYWRIGHT 2222' }).waitFor({ state: 'visible' });
+        await this.page.locator("button[title='Eliminar'] svg").click()
+        await this.page.getByRole('button', { name: 'Confirmar' }).click()
+    }
     
     async addArticle (
         skuCode,
@@ -168,7 +176,7 @@ class ArticlesPage {
         quantityPackage)
 
         {
-            await this.page.getByRole('heading', { name: 'Dashboard' }).waitFor({ state: 'visible' });
+            
             await this.page.goto(this.url)
             await this.clickearBtnCrearArt()
             await this.llenarSku(skuCode)
