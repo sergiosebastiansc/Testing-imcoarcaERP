@@ -16,7 +16,8 @@ test.describe ('validando creación de Facturas de venta', () => {
         await loginPage.login ('tae@testing.com','Tae@2026')
         await billPage.AgregarFactura(
 
-           "00002",                 //codCliente
+           "00118",                 //codCliente
+           "118",                 //codClienteBusqueda
            "01",                    //codVendedor
            "02/09/2026",            //fechaFactura
            "02/10/2026",            //fechaEntrega
@@ -43,7 +44,8 @@ test.describe ('validando creación de Facturas de venta', () => {
         await loginPage.login ('tae@testing.com','Tae@2026')
         await billPage.AgregarFactura(
 
-           "00002",                 //codCliente
+           "00118",                 //codCliente
+           "00118",                 //codClienteBusqueda
            "01",                    //codVendedor
            "02/09/2026",            //fechaFactura
            "02/10/2026",            //fechaEntrega
@@ -64,7 +66,8 @@ test.describe ('validando creación de Facturas de venta', () => {
         await loginPage.login ('tae@testing.com','Tae@2026')
         await billPage.facturaIncompleta(
 
-           "02",                 //codCliente
+           "00118",                 //codCliente
+           "00118",                 //codClienteBusqueda
            "01",                    //codVendedor
            '02092026',            //fechaFactura
            '02102026',            //fechaEntrega
