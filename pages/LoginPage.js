@@ -5,6 +5,7 @@ class LoginPage {
         this.emailAdress=  page.getByRole('textbox', { name: 'Email' })
         this.password=  page.getByRole('textbox', { name: 'Contraseña' })
         this.btnLogin= page.getByRole('button', { name: 'Ingresar' })
+        
     }
 
     async llenarEmailAdress(value){
@@ -15,9 +16,17 @@ class LoginPage {
         await this.password.fill (value);
     }
 
-    async clickBtnLogin(value){
+    async clickBtnLogin(){
         await this.btnLogin.click()
 
+    }
+
+
+    async loginInvalido(emailAdress,password){
+        await this.page.goto (this.url)
+        await this.llenarEmailAdress(emailAdress);
+        await this.llenarPassword(password);
+        await this.clickBtnLogin()
     }
 
     async login (emailAdress,password){

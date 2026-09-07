@@ -12,7 +12,9 @@ class BillPage{
         this.numOrdenCompra= page.locator('[name="purchase_order_number"]')
         this.codCliente= page.getByRole('textbox', { name: 'Código...' }).nth(1)
         this.btnBuscNameCliente= page.getByRole('button', { name: 'Buscar' }).nth(2)
-        this.selecNameCliente= page.getByRole('cell', { name: 'Cliente Automatizacion TAE' })
+        this.nameBusqueda= page.getByRole('textbox', { name: 'Buscar por nombre, código...' })
+        this.btnClienteBusqueda= page.locator('.inline-flex.items-center.px-4.py-2.text-sm.font-medium.text-white.bg-indigo-600.border.border-transparent.rounded-r-md')
+        this.selecNameCliente= page.getByRole('cell', { name: 'Los Almos S.A.' })
         this.fechaFactura= page.locator('[name="invoice_date"]')
         this.codTransporte= page.getByRole('textbox', { name: 'Código...' }).nth(4)
         this.btnBuscNameTransporte= page.getByRole('button', { name: 'Buscar' }).nth(5)
@@ -49,9 +51,14 @@ class BillPage{
 
     async clickBuscCliente (){
         await this.btnBuscNameCliente.click()
+        
     }
 
-    async selecCliente (){
+    async selecCliente (value){
+        await this.nameBusqueda.fill(value)
+        await this.page.locator('.border-4').waitFor({ state: 'hidden' })
+        await this.btnClienteBusqueda.click()
+        
         await this.selecNameCliente.click()
     }
 
@@ -168,6 +175,7 @@ class BillPage{
 
     async facturaIncompleta(
         codCliente,
+        selecCliente,
         codVendedor,
         fechaFactura,
         fechaEntrega,
@@ -181,7 +189,7 @@ class BillPage{
         await this.clickAddFactura()
         await this.llenarCodCliente(codCliente)
         await this.clickBuscCliente()
-        await this.selecCliente()
+        await this.selecCliente(selecCliente)
         await this.llenarCodVendedor(codVendedor)
         await this.clickBuscVendedor()
         await this.selecVendedor()
@@ -206,6 +214,7 @@ class BillPage{
 
     async AgregarFactura(
         codCliente,
+        selecCliente,
         codVendedor,
         fechaFactura,
         fechaEntrega,
@@ -222,7 +231,7 @@ class BillPage{
         await this.clickAddFactura()
         await this.llenarCodCliente(codCliente)
         await this.clickBuscCliente()
-        await this.selecCliente()
+        await this.selecCliente(selecCliente)
         await this.clickAddItem()
         await this.llenarCodItem(codItem)
         await this.SelecItem()

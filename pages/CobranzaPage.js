@@ -7,15 +7,15 @@ class CobranzaPage{
         this.buscNombre= page.getByLabel('Buscar', { exact: true })
         this.selecCliente= page.getByRole('cell', { name: 'Cliente Automatizacion TAE' })
         this.fechaCobro= page.getByLabel('Fecha de Cobro')
-        this.montoCobrar= page.locator(`//tr[td[contains(., '248')]]//input[@type='text']`)
-        this.montoAllSaldo= page.getByRole('button', { name: 'Aplicar saldo completo ($ 100,00) para factura 248' })
+        this.montoCobrar= page.getByRole('textbox', { name: '0.00' }).first()
+        this.montoAllSaldo= page.locator("button[title='Llenar con saldo pendiente'] svg").first()
         this.addMedioPago=  page.getByRole('button', { name: 'Añadir Medio' })
         this.metodoPago= page.getByRole('combobox', { name: 'Medio' })
         this.buscNameCuenta= page.locator("div[class='col-span-12 md:col-span-3'] button[aria-label='Buscar']")
         this.selecCuenta= page.getByRole('cell', { name: 'DISPONIBLE' })
         this.addMontoFinal= page.getByRole('button', { name: 'Completar valor con el faltante respecto al total aplicado' })
         this.btnSaveCobranza= page.getByRole('button', { name: 'Guardar Cobranza' })
-        this.asert=page.getByText('Cobranza guardada con éxito!')
+        
     }
 
     async clickAddCobranza (){
@@ -39,8 +39,10 @@ class CobranzaPage{
         await this.selecCliente.click()
     }
 
-    async llenarFechaCobro (value) {
-        await this.fechaCobro.fill(value)
+ async llenarFechaCobro (value) {
+        await this.fechaCobro.clear()
+        await this.fechaCobro.pressSequentially(value)
+        
     }
 
     async clickMontoCobrar(){
@@ -110,14 +112,14 @@ class CobranzaPage{
         await this.clickSaveCobranza()
     }
 
-    async cobranzaMontoCobrar(codCliente, fechaCobro, montoExcesivo){
+    async cobranzaMontoCobrar(codCliente, fechaCobro, montoCobrar){
         await this.irACobranza()
         await this.clickAddCobranza()
         await this.llenarCodCliente(codCliente)
         await this.selecBuscNombre()
         await this.selecNombre()
         await this.llenarFechaCobro(fechaCobro)
-        await this.montoCobrar.fill(montoExcesivo)
+        await this.montoCobrar.fill(montoCobrar)
         await this.clickSaveCobranza()
     }
 
