@@ -22,6 +22,11 @@ class CobranzaPage{
         await this.btnAddCobranza.click()
     }
 
+    async irACobranza(){
+        await this.page.getByRole('heading', { name: 'Dashboard' }).waitFor({ state: 'visible' })
+        await this.page.goto(this.url)
+    }
+
     async llenarCodCliente (value){
         await this.codCliente.fill(value)
     }
@@ -69,12 +74,14 @@ class CobranzaPage{
         await this.btnSaveCobranza.click()
     }
 
-        async cobranzaSinCliente(){
+    async cobranzaSinCliente(){
+        await this.irACobranza()
         await this.clickAddCobranza()
         await this.clickSaveCobranza()
     }
 
     async AddCobranza(codCliente, fechaCobro){
+        await this.irACobranza()
         await this.clickAddCobranza()
         await this.llenarCodCliente(codCliente)
         await this.selecBuscNombre()
@@ -89,13 +96,25 @@ class CobranzaPage{
         await this.clickSaveCobranza()
     }
 
-        async cobranzaSinMedioPago(codCliente, fechaCobro){
+    async cobranzaSinMedioPago(codCliente, fechaCobro){
+        await this.irACobranza()    
         await this.clickAddCobranza()
         await this.llenarCodCliente(codCliente)
         await this.selecBuscNombre()
         await this.selecNombre()
         await this.llenarFechaCobro(fechaCobro)
         await this.clickMontoCobrar()
+        await this.clickSaveCobranza()
+    }
+
+    async cobranzaMontoCobrar(codCliente, fechaCobro, montoExcesivo){
+        await this.irACobranza()
+        await this.clickAddCobranza()
+        await this.llenarCodCliente(codCliente)
+        await this.selecBuscNombre()
+        await this.selecNombre()
+        await this.llenarFechaCobro(fechaCobro)
+        await this.montoCobrar.fill(montoExcesivo)
         await this.clickSaveCobranza()
     }
 

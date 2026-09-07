@@ -17,8 +17,7 @@ test.afterEach (async ({page})=> {
 
 test('Creación de cobranza con datos completos', async ({page}) => {
     await loginPage.login ('tae@testing.com','Tae@2026')
-    await page.getByRole('heading', { name: 'Dashboard' }).waitFor({ state: 'visible' })
-    await page.goto('https://imcoarca.leonardojose.dev/cobranzas')
+
     
     await cobranzaPage.AddCobranza(
         '00002',            // codCliente
@@ -26,34 +25,28 @@ test('Creación de cobranza con datos completos', async ({page}) => {
     await expect(page.getByText('Cobranza guardada con éxito!', { exact: true })).toBeVisible()
 })
 
-test('Creación de cobranza con datos vacios', async ({page}) => {
-    await loginPage.login ('tae@testing.com','Tae@2026')
-    await page.getByRole('heading', { name: 'Dashboard' }).waitFor({ state: 'visible' })
-    await page.goto('https://imcoarca.leonardojose.dev/cobranzas')
-    await cobranzaPage.cobranzaSinCliente()
-    await expect(page.getByText('Debe seleccionar un cliente',)).toBeVisible()
-})
-
 test('Creación de cobranza sin seleccionar cliente', async ({page}) => {
     await loginPage.login ('tae@testing.com','Tae@2026')
-    await page.getByRole('heading', { name: 'Dashboard' }).waitFor({ state: 'visible' })
-    await page.goto('https://imcoarca.leonardojose.dev/cobranzas')
-    
-    await cobranzaPage.AddCobranza(
-        '',
-        '')
-    await expect(page.getByText('Debe seleccionar un cliente',)).toBeVisible()
+    await cobranzaPage.cobranzaSinCliente()
+    await expect(page.getByText('Debe seleccionar un cliente')).toBeVisible()
 })
 
-
 test('Creación de cobranza sin seleccionar medio de pago', async ({page}) => {
-    await loginPage.login ('tae@testing.com','Tae@2026')
-    await page.getByRole('heading', { name: 'Dashboard' }).waitFor({ state: 'visible' })
-    await page.goto('https://imcoarca.leonardojose.dev/cobranzas')
-    
+    await loginPage.login ('tae@testing.com','Tae@2026')    
     await cobranzaPage.cobranzaSinMedioPago(
         '00002',           
         '10/09/2026')
     await expect(page.getByText('Debe seleccionar un medio de pago', { exact: true })).toBeVisible()
 })
+
+test('Creación de cobranza con monto mayor al saldo', async ({page}) => {
+    await loginPage.login ('tae@testing.com','Tae@2026')
+    await cobranzaPage.cobranzaMontoCobrar(
+        '00002',
+        '10/09/2026',
+        '150,00'
+    )
+    await expect(page.getByText('no puede superar el saldo')).toBeVisible()
+})
+
 })
