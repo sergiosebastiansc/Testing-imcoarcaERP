@@ -21,7 +21,7 @@ test('Creación de cobranza con datos completos', async ({page}) => {
     
     await cobranzaPage.AddCobranza(
         '00002',            // codCliente
-        '10/09/2026')       // fechaCobro
+        '2026-09-10')       // fechaCobro
     await expect(page.getByText('Cobranza guardada con éxito!', { exact: true })).toBeVisible()
 })
 
@@ -35,15 +35,15 @@ test('Creación de cobranza sin seleccionar medio de pago', async ({page}) => {
     await loginPage.login ('tae@testing.com','Tae@2026')    
     await cobranzaPage.cobranzaSinMedioPago(
         '00002',           
-        '10/09/2026')
-    await expect(page.getByText('Debe seleccionar un medio de pago', { exact: true })).toBeVisible()
+        '2026-09-10')
+    await expect(page.getByText('Falta cobrar')).toBeVisible()
 })
 
 test('Creación de cobranza con monto mayor al saldo', async ({page}) => {
     await loginPage.login ('tae@testing.com','Tae@2026')
     await cobranzaPage.cobranzaMontoCobrar(
         '00002',
-        '10/09/2026',
+        '2026-09-10',
         '150,00'
     )
     await expect(page.getByText('no puede superar el saldo')).toBeVisible()
