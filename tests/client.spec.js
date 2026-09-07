@@ -19,9 +19,9 @@ test.describe ('validando creación de clientes', () => {
         await loginPage.login ('tae@testing.com','Tae@2026')
 
 
-        await clientPage.addClient(
+    await clientPage.addClient(
     '20-12640791-3',                                // cuit 
-    'Cliente Automatizacion TAE',                              // businessName 
+    'Los Almos S.A.',                              // businessName 
     'Av. Los Almos 1234',                // fiscalAddress
     '3300',                              // postalCode
     'Posadas',                           // locality
@@ -54,7 +54,7 @@ test.describe ('validando creación de clientes', () => {
 
         await clientPage.addClient(
     '20-126',                               
-    'Cliente Automatizacion TAE',                  
+    'Los Almos S.A.',                  
     'Av. Los Almos 1234',          
     '3300',                          
     'Posadas',                       
@@ -118,7 +118,7 @@ test.describe ('validando creación de clientes', () => {
 
         await clientPage.addClient(
     '20-12640791-3',                                // cuit 
-    'Cliente Automatizacion TAE',                              // businessName 
+    'Los Almos S.A.',                              // businessName 
     'Av. Los Almos 1234',                // fiscalAddress
     '3300',                              // postalCode
     'Posadas',                           // locality

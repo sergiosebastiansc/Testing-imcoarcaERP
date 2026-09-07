@@ -7,8 +7,8 @@ class CobranzaPage{
         this.buscNombre= page.getByLabel('Buscar', { exact: true })
         this.selecCliente= page.getByRole('cell', { name: 'Cliente Automatizacion TAE' })
         this.fechaCobro= page.getByLabel('Fecha de Cobro')
-        this.montoCobrar= page.locator(`//tr[td[contains(., '247')]]//input[@type='text']`)
-        this.montoAllSaldo= page.getByRole('button', { name: 'Aplicar saldo completo ($ 100,00) para factura 247' })
+        this.montoCobrar= page.locator(`//tr[td[contains(., '248')]]//input[@type='text']`)
+        this.montoAllSaldo= page.getByRole('button', { name: 'Aplicar saldo completo ($ 100,00) para factura 248' })
         this.addMedioPago=  page.getByRole('button', { name: 'Añadir Medio' })
         this.metodoPago= page.getByRole('combobox', { name: 'Medio' })
         this.buscNameCuenta= page.locator("div[class='col-span-12 md:col-span-3'] button[aria-label='Buscar']")
@@ -40,14 +40,17 @@ class CobranzaPage{
     }
 
     async llenarFechaCobro (value) {
-        await this.fechaCobro.clear()
-        await this.fechaCobro.pressSequentially(value)
+        await this.fechaCobro.fill(value)
     }
 
     async clickMontoCobrar(){
         await this.montoAllSaldo.waitFor({ state: 'visible' })
         await this.montoAllSaldo.click()
 
+    }
+
+    async llenarMontoExcesivo(value){
+        await this.montoCobrar.fill(value)
     }
 
     async clickAddMedioPago(){
