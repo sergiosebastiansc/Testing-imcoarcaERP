@@ -5,7 +5,9 @@ class CobranzaPage{
         this.btnAddCobranza= page.getByRole('button', { name: 'Crear Cobranza' })
         this.codCliente= page.getByRole('textbox', { name: 'Código...' })
         this.buscNombre= page.getByLabel('Buscar', { exact: true })
-        this.selecCliente= page.getByRole('cell', { name: 'Cliente Automatizacion TAE' })
+        this.buscCliente=page.getByRole('textbox', { name: 'Buscar por nombre, código...' })
+        this.btnBuscCliente= page.locator("button[type='submit']")
+        this.selecCliente= page.getByRole('cell', { name: '00118' })
         this.fechaCobro= page.getByLabel('Fecha de Cobro')
         this.montoCobrar= page.getByRole('textbox', { name: '0.00' }).first()
         this.montoAllSaldo= page.locator("button[title='Llenar con saldo pendiente'] svg").first()
@@ -31,8 +33,11 @@ class CobranzaPage{
         await this.codCliente.fill(value)
     }
 
-    async selecBuscNombre (){
+    async selecBuscNombre (value){
         await this.buscNombre.click()
+        await this.page.locator('.border-4').waitFor({ state: 'hidden' })
+        await this.buscCliente.fill(value)
+        await this.btnBuscCliente.click()
     }
 
     async selecNombre (){
@@ -85,11 +90,11 @@ class CobranzaPage{
         await this.clickSaveCobranza()
     }
 
-    async AddCobranza(codCliente, fechaCobro){
+    async AddCobranza(codCliente, buscCliente, fechaCobro){
         await this.irACobranza()
         await this.clickAddCobranza()
         await this.llenarCodCliente(codCliente)
-        await this.selecBuscNombre()
+        await this.selecBuscNombre(buscCliente)
         await this.selecNombre()
         await this.llenarFechaCobro(fechaCobro)
         await this.clickMontoCobrar()
@@ -101,25 +106,25 @@ class CobranzaPage{
         await this.clickSaveCobranza()
     }
 
-    async cobranzaSinMedioPago(codCliente, fechaCobro){
+    async cobranzaSinMedioPago(codCliente, buscCliente, fechaCobro){
         await this.irACobranza()    
         await this.clickAddCobranza()
         await this.llenarCodCliente(codCliente)
-        await this.selecBuscNombre()
+        await this.selecBuscNombre(buscCliente)
         await this.selecNombre()
         await this.llenarFechaCobro(fechaCobro)
         await this.clickMontoCobrar()
         await this.clickSaveCobranza()
     }
 
-    async cobranzaMontoCobrar(codCliente, fechaCobro, montoCobrar){
+    async cobranzaMontoCobrar(codCliente, buscCliente, fechaCobro, montoExcesivo){
         await this.irACobranza()
         await this.clickAddCobranza()
         await this.llenarCodCliente(codCliente)
-        await this.selecBuscNombre()
+        await this.selecBuscNombre(buscCliente)
         await this.selecNombre()
         await this.llenarFechaCobro(fechaCobro)
-        await this.montoCobrar.fill(montoCobrar)
+        await this.montoCobrar.fill(montoExcesivo)
         await this.clickSaveCobranza()
     }
 

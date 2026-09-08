@@ -1,6 +1,6 @@
 import {test,expect} from "@playwright/test"
-import LoginPage from "../pages/LoginPage"
-import ClientPage from "../pages/Client.js";
+import LoginPage from "../../pages/LoginPage"
+import ClientPage from "../../pages/Client.js";
 
 let loginPage;
 let clientPage;

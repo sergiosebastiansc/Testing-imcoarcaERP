@@ -1,6 +1,6 @@
 import {test,expect} from "@playwright/test"
-import LoginPage from "../pages/LoginPage"
-import BillPage from "../pages/BillPage"
+import LoginPage from '../../pages/LoginPage'
+import BillPage from '../../pages/BillPage'
 
 let loginPage;
 let billPage;
@@ -26,9 +26,11 @@ test.describe ('validando creación de Facturas de venta', () => {
            "01",                    //codMoneda
            "",                       //numOrdenCompra
            "Calle testing 123",     //nuevaDir
-           "0000.0000.0003",        //codItem
+           "7771.0242.1234",        //codItem
+           "teclado tester",        //item
            "testing E2E"            //observaciones
         );
+        await page.getByText('Factura creada con éxito.', { exact: true }).waitFor({ state: 'visible' })
         await expect( page.getByText('Factura creada con éxito.', { exact: true })).toBeVisible()
 
     })
@@ -54,7 +56,8 @@ test.describe ('validando creación de Facturas de venta', () => {
            "01",                    //codMoneda
            "11223344",              //numOrdenCompra
            "",                      //nuevaDir
-           "0000.0000.0003",        //codItem
+           "7771.0242.1234",        //codItem
+           "teclado tester",        //item
            "testing E2E"            //observaciones
         )
 
