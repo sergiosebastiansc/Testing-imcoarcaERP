@@ -1,6 +1,6 @@
 import {test,expect} from "@playwright/test"
-import LoginPage from "../pages/LoginPage"
-import ArticlesPage from "../pages/ArticlesPage.js";
+import LoginPage from "../../pages/LoginPage"
+import ArticlesPage from "../../pages/ArticlesPage.js";
 
 let loginPage;
 let articlesPage;
@@ -20,7 +20,7 @@ test.describe ('validando creación de articulos', () => {
     test('creacion de articulo con datos completos', async ({page}) => {
         await loginPage.login ('tae@testing.com','Tae@2026')
         await articlesPage.addArticle(
-    '0000.0010.9988',               //skuCode
+    '0700.2222.9988',               //skuCode
     'TESTING PLAYWRIGHT 2222',      //articleName
     'ARTICULO E2E PLAYWRIGHT',      //articleDescription
     'Unidad',                       //articleUnit

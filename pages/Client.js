@@ -15,7 +15,8 @@ class ClientPage {
         this.locality = page.getByRole('textbox', { name: 'Localidad', exact: true });
         this.phone = page.locator('#phone');
         this.whatsapp = page.getByRole('textbox', { name: 'WhatsApp' });
-        this.email = page.locator('#email');        this.contactPerson = page.getByRole('textbox', { name: 'Persona de Contacto', exact: true });
+        this.email = page.locator('#email');        
+        this.contactPerson = page.getByRole('textbox', { name: 'Persona de Contacto', exact: true });
         this.line = page.getByRole('textbox', { name: 'Rubro' });
         this.zone = page.getByRole('combobox', { name: 'Zona' });
         this.collectionAddress = page.getByRole('textbox', { name: 'Domicilio de Cobranza' });

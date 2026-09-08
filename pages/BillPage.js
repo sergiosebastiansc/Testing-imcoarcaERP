@@ -14,7 +14,7 @@ class BillPage{
         this.btnBuscNameCliente= page.getByRole('button', { name: 'Buscar' }).nth(2)
         this.nameBusqueda= page.getByRole('textbox', { name: 'Buscar por nombre, código...' })
         this.btnClienteBusqueda= page.locator('.inline-flex.items-center.px-4.py-2.text-sm.font-medium.text-white.bg-indigo-600.border.border-transparent.rounded-r-md')
-        this.selecNameCliente= page.getByRole('cell', { name: 'Los Almos S.A.' })
+        this.selecNameCliente= page.getByRole('cell', { name: '00118' })
         this.fechaFactura= page.locator('[name="invoice_date"]')
         this.codTransporte= page.getByRole('textbox', { name: 'Código...' }).nth(4)
         this.btnBuscNameTransporte= page.getByRole('button', { name: 'Buscar' }).nth(5)
@@ -33,7 +33,8 @@ class BillPage{
         this.btnAddItem= page.getByRole('button', { name: 'Agregar Ítem' })
         this.codItem= page.locator('.px-3 > .flex.w-full > .relative.w-1\\/3 > .block')
         this.btnBuscItem= page.locator('.px-3 > .flex.w-full > .relative.flex-1 > .absolute.inset-y-0.right-0')
-        this.selecNameItem= page.getByText('ARTICULO TAE AUTOMATIZACION', { exact: true })
+        this.nameitem= page.getByRole('textbox', { name: 'Buscar por nombre, código...' })
+        this.selecNameItem= page.getByText('Teclado Tester', { exact: true })
         this.Cantidad= page.locator('input[name="quantity"]')
         this.precioUnidad= page.locator('input[name="unit_price"]')
         this.observaciones= page.locator('[name="notes"]')
@@ -58,7 +59,7 @@ class BillPage{
         await this.nameBusqueda.fill(value)
         await this.page.locator('.border-4').waitFor({ state: 'hidden' })
         await this.btnClienteBusqueda.click()
-        
+        await this.page.locator('.border-4').waitFor({ state: 'hidden' })
         await this.selecNameCliente.click()
     }
 
@@ -67,10 +68,12 @@ class BillPage{
     }
 
     async clickBuscVendedor() {
+        
         await this.btnBuscVendedor.click()
     }
 
     async selecVendedor(){
+       
         await this.selecNameVendedor.click()
     }
 
@@ -99,6 +102,7 @@ class BillPage{
     }
 
     async selecComprador(){
+        await this.page.locator('.border-4').waitFor({ state: 'hidden' })
         await this.selecNameComprador.click()
     }
 
@@ -111,6 +115,7 @@ class BillPage{
     }
 
     async selecTransporte(){
+        await this.page.locator('.border-4').waitFor({ state: 'hidden' })
         await this.selecNameTransporte.click()
     }
 
@@ -148,14 +153,17 @@ class BillPage{
 
     async llenarCodItem(value){
         await this.codItem.fill(value)
-        await this.page.getByText('ARTICULO TAE AUTOMATIZACION', { exact: true }).waitFor({ state: 'visible' });
+        
     }
 
     
 
-    async SelecItem(){
-        await this.page.getByText('ARTICULO TAE AUTOMATIZACION', { exact: true }).first().waitFor({ state: 'visible' });
-        await this.page.getByText('ARTICULO TAE AUTOMATIZACION', { exact: true }).first().click()
+    async SelecItem(value){
+        await this.btnBuscItem.click()
+        await this.nameitem.fill(value)
+        await this.page.getByText('Teclado Tester', { exact: true }).first().waitFor({ state: 'visible' });
+        await this.page.getByText('Teclado Tester', { exact: true }).first().click()
+        await this.page.locator("//input[@value='Teclado Tester']").waitFor({ state: 'visible' })
         
     }
 
@@ -224,6 +232,7 @@ class BillPage{
         numOrdenCompra,
         nuevaDir,
         codItem,
+        nameItem,
         observaciones)
         
         {
@@ -232,9 +241,7 @@ class BillPage{
         await this.llenarCodCliente(codCliente)
         await this.clickBuscCliente()
         await this.selecCliente(selecCliente)
-        await this.clickAddItem()
-        await this.llenarCodItem(codItem)
-        await this.SelecItem()
+       
         await this.llenarCodVendedor(codVendedor)
         await this.clickBuscVendedor()
         await this.selecVendedor()
@@ -254,6 +261,9 @@ class BillPage{
         await this.selecDirEntrega()
         await this.llenarDireccion(nuevaDir)
         await this.clickValorDolar()
+         await this.clickAddItem()
+        await this.llenarCodItem(codItem)
+        await this.SelecItem(nameItem)
         await this.llenarObs(observaciones)
         await this.clickSaveFactura()
 

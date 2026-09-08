@@ -1,6 +1,6 @@
 import {test,expect} from "@playwright/test"
-import LoginPage from "../pages/LoginPage"
-import CobranzaPage from "../pages/CobranzaPage"
+import LoginPage from "../../pages/LoginPage"
+import CobranzaPage from "../../pages/CobranzaPage"
 
 let loginPage;
 let cobranzaPage;
@@ -20,7 +20,8 @@ test('Creación de cobranza con datos completos', async ({page}) => {
 
     
     await cobranzaPage.AddCobranza(
-        '00002',            // codCliente
+        '00118',            // codCliente
+        '00118',
         '2026-09-10')       // fechaCobro
     await expect(page.getByText('Cobranza guardada con éxito!', { exact: true })).toBeVisible()
 })
@@ -34,7 +35,8 @@ test('Creación de cobranza sin seleccionar cliente', async ({page}) => {
 test('Creación de cobranza sin seleccionar medio de pago', async ({page}) => {
     await loginPage.login ('tae@testing.com','Tae@2026')    
     await cobranzaPage.cobranzaSinMedioPago(
-        '00002',           
+        '00118',
+        '00118',           
         '2026-09-10')
     await expect(page.getByText('Falta cobrar')).toBeVisible()
 })
@@ -42,9 +44,10 @@ test('Creación de cobranza sin seleccionar medio de pago', async ({page}) => {
 test('Creación de cobranza con monto mayor al saldo', async ({page}) => {
     await loginPage.login ('tae@testing.com','Tae@2026')
     await cobranzaPage.cobranzaMontoCobrar(
-        '00002',
+        '00118',
+        '00118',
         '2026-09-10',
-        '150,00'
+        '150000,00'
     )
     await expect(page.getByText('no puede superar el saldo')).toBeVisible()
 })
