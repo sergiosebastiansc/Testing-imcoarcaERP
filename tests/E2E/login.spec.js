@@ -8,13 +8,23 @@ test.describe ('Escenarios de login de cuenta', () => {
 
   })
 
-  test ('login con datos válidos', async ({page}) => {
+  test ('login vendedor con datos válidos', async ({page}) => {
     await loginPage.login ('vendedor@testing.com','Tae@2026');
     await expect ( page.getByRole('button', { name: 'Cerrar Sesión' })).toBeVisible();
     await expect (page.getByRole('link', { name: 'Cobranzas' })).toBeHidden()
     await expect (page.getByRole('button', { name: 'Finanzas' })).toBeHidden()
     await expect (page.getByRole('button', { name: 'Configuración' })).toBeHidden()
     await expect (page.getByText('Gestión de Proveedores', { exact: true })).toBeHidden()
+  })
+
+  test ('login admin testing con datos válidos', async ({page}) => {
+    await loginPage.login ('tae@testing.com','Tae@2026');
+    await expect ( page.getByRole('button', { name: 'Cerrar Sesión' })).toBeVisible();
+    await page.locator('div.pt-4.mt-auto.border-t.border-gray-700').click()
+    await expect (page.getByRole('button', { name: 'Gestión de Clientes' })).toBeVisible()
+    await expect (page.getByRole('button', { name: 'Finanzas' })).toBeVisible()
+    await expect (page.getByRole('button', { name: 'Configuración' })).toBeVisible()
+    await expect (page.getByText('Gestión de Proveedores', { exact: true })).toBeVisible()
   })
 
   test ('login con datos inválidos', async ({page}) => {
