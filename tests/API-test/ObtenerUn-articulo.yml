@@ -1,0 +1,53 @@
+info:
+  name: ObtenerUn-articulo
+  type: http
+  seq: 8
+
+http:
+  method: GET
+  url: "{{BASE_URL}}/products/{{productID}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+    - name: tokenID
+      value: access_token={{tokenID}}
+  auth:
+    type: bearer
+    token: "{{tokenID}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test ('validar codigo de resultado exitoso', function (){
+          expect (res.status).to.equal(200)
+        });
+
+        test ( 'validar formato body',function () {
+          expect (res.body).to.be.json
+        })
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.data.id
+      operator: isNumber
+    - expression: res.body.data.name
+      operator: isString
+    - expression: res.body.data.cost_price
+      operator: isNumber
+    - expression: res.body.data.sale_price
+      operator: isNumber
+    - expression: res.body.data.stock_quantity
+      operator: isNumber
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

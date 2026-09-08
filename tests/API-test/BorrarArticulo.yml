@@ -1,0 +1,38 @@
+info:
+  name: BorrarArticulo
+  type: http
+  seq: 9
+
+http:
+  method: DELETE
+  url: "{{BASE_URL}}/products/{{productID}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  auth:
+    type: bearer
+    token: "{{tokenID}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test ('validar codigo de resultado', function (){
+          expect (res.status).to.equal(204)
+          console.log("articulo borrado correctamente")
+        });
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "204"
+    - expression: res.body
+      operator: isEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -1,0 +1,49 @@
+info:
+  name: Auth con datos invalidos
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{BASE_URL}}/login"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "email": "poe@testing.com",
+        "password" : "poe@2026"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test ('validar codigo de resultado', function (){
+          expect (res.status).to.equal(401)
+        });
+
+        test ('validar recepcion de token  incorrecto', function (){
+          
+          expect (res.body.message).to.equal("Las credenciales proporcionadas son incorrectas.")
+          console.log ('Las credenciales proporcionadas son incorrectas.')
+        });
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "401"
+    - expression: res.body.message
+      operator: eq
+      value: Las credenciales proporcionadas son incorrectas.
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
