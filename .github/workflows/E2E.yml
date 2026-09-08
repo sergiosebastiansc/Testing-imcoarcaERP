@@ -1,0 +1,42 @@
+name: tests E2E
+
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  
+  test_e2e:
+    runs-on: ubuntu-latest
+
+    
+    steps:
+      - name: Carga el código
+        uses: actions/checkout@v7
+
+      - name: Prepara el ambiente
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Instalar playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Ejecutar playwright
+        run: npx playwright test
+
+      - name: Sube el reporte
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

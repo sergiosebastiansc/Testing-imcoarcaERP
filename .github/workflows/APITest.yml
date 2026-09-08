@@ -1,0 +1,44 @@
+name: API Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test_API:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+    
+      - name: Instalar Bruno CLI
+        run: npm install -g @usebruno/cli
+
+      - name: Ejecutar Pruebas de API (Bruno)
+        run: >
+          bru run 
+          --env "test-erp" 
+          --env-var "username=${{ secrets.ERP_USERNAME }}" 
+          --env-var "password=${{ secrets.ERP_PASSWORD }}" 
+          --reporter-html results.html
+        working-directory: ./tests/API-test
+
+      - name: Subir reporte HTML como Artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-results
+          path: ./tests/API-test/reports/results.html
+          retention-days: 7
