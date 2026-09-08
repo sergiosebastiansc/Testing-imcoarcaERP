@@ -1,0 +1,93 @@
+info:
+  name: CrearArticulo
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{BASE_URL}}/products"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+    - name: tokenID
+      value: access_token={{tokenID}}
+  body:
+    type: json
+    data: |-
+      {
+            
+            "name": "TESTING777",
+            "sku": "0000.7000.7777",
+            "description": null,
+            "is_active": true,
+            "line": 37,
+            "line_name": "LINEA 1",
+            "category": 53,
+            "category_name": "CATEGORIA 1",
+            "cost_price": "10.00",
+            "purchase_price": null,
+            "purchase_cost": null,
+            "cost_currency": null,
+            "cost_date": "2026-08-22",
+            "sale_price": "100.00",
+            "multiplier": null,
+            "stock_quantity": 50,
+            "on_order_quantity": 4,
+            "min_stock_level": 1,
+            "supplier_delay_days": 5,
+            "unit": null,
+            "quantity_per_bundle": 1,
+            "monthly_sales": 0,
+            "last_remit": null,
+            "last_sale_date": null,
+            "legacy_numart": null,
+            "compute_1": null,
+            "compute_2": null,
+            "compute_3": null,
+            "owner_manufacturing": null,
+            "relatedTaxes": [],
+            "suggested_price": 0,
+            "created_at": "2026-09-5 10:15:04",
+            "updated_at": "2026-09-6 00:28:59"
+          }
+  auth:
+    type: bearer
+    token: "{{tokenID}}"
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.status === 201 && res.body.data?.id) {
+          bru.setEnvVar("productID", res.body.data.id);
+          console.log (`usando productID: ${res.body.data.id}`);
+        }
+    - type: tests
+      code: |-
+        test ('validar codigo de resultado correcto', function (){
+          expect (res.status).to.equal(201)
+          console.log("articulo creado correctamente")
+        });
+
+        test ( 'validar formato body',function () {
+          expect (res.body).to.be.json
+        })
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+      description: petición de creación ha sido exitosa
+    - expression: res.body
+      operator: isJson
+      description: datos del body es un JSON valido
+    - expression: res.body.data.id
+      operator: isNumber
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

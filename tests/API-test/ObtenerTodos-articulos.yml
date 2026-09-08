@@ -1,0 +1,48 @@
+info:
+  name: ObtenerTodos-articulos
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{BASE_URL}}/products"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: tokenID
+      value: access_token={{tokenID}}
+  auth:
+    type: bearer
+    token: "{{tokenID}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test ('validar tipo de datos', function (){
+          expect (res.name).to.be.a("string")
+          expect (res.body.data[0].id).to.be.a("number")
+        });
+
+        test ( 'validar formato body',function () {
+          expect (res.body).to.be.json
+        })
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+      description: petición ha sido exitosa
+    - expression: res.body
+      operator: isJson
+      description: datos del body es un JSON valido
+    - expression: res.body.data[0].id
+      operator: isNumber
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

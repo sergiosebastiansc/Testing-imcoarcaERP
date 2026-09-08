@@ -1,0 +1,55 @@
+info:
+  name: Auth con datos vacios
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{BASE_URL}}/login"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "email": "",
+        "password" : ""
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test ('validar codigo de resultado', function (){
+          expect (res.status).to.equal(422)
+        });
+
+        test ('validar recepcion de token vacio incorrecto', function (){
+          
+          expect (res.body.message).to.equal("Los datos proporcionados no son válidos.")
+          console.log ('Los datos proporcionados no son válidos.')
+        });
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.body.message
+      operator: eq
+      value: Los datos proporcionados no son válidos.
+    - expression: res.body.errors.email[0]
+      operator: eq
+      value: The email field is required.
+    - expression: res.body.errors.password[0]
+      operator: eq
+      value: The password field is required.
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

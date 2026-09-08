@@ -1,0 +1,10 @@
+name: test-erp
+variables:
+  - name: BASE_URL
+    value: https://back-imcoarca.leonardojose.dev/api
+  - name: tokenID
+    value: 2539|aSy11DlcV8x3LGx4UMqQV8bfBiUTxlMstGRU8GiQf1dd7fdd
+  - name: productID
+    value:
+      type: number
+      data: "7416"
